@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF">
+  <appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %category{36} - %msg%n"/>
+    </Console>
+  </appenders>
+  
+ <!-- 下面是打印mybatis语句的配置-->
+<!--  <category name="com.ibatis" additivity="true"> 
+  <level value="DEBUG" /> 
+ </category> 
+ <category name="java.sql.Connection" additivity="true"> 
+  <level value="DEBUG" /> 
+ </category> 
+ <category name="java.sql.Statement" additivity="true"> 
+  <level value="DEBUG" /> 
+ </category> 
+ <category name="java.sql.PreparedStatement" additivity="true"> 
+  <level value="DEBUG" /> 
+ </category> 
+ <category name="java.sql.ResultSet" additivity="true"> 
+  <level value="DEBUG" /> 
+ </category>  -->	 
+  
+  <loggers>
+    <root level="trace">
+      <appender-ref ref="Console"/>
+    </root>
+  </loggers>
+</configuration>

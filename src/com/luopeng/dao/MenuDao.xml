@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.luopeng.dao.MenuDao">
+
+  	
+  	
+  	<select id="selectAll" resultType="com.luopeng.model.Menu">
+  		select * from tb_menu
+  	</select>
+
+</mapper>

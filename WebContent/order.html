@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Flat UI - Free Bootstrap Framework and Theme</title>
+    <meta name="description" content="Flat UI Kit Free is a Twitter Bootstrap Framework design and Theme, this responsive framework includes a PSD and HTML version."/>
+
+    <meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+
+    <!-- Loading Bootstrap -->
+    <link href="dist/css/vendor/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="dist/css/flat-ui.css" rel="stylesheet">
+    <link href="docs/assets/css/demo.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+	
+	<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="dist/js/vendor/html5shiv.js"></script>
+      <script src="dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+
+      <h3 class="demo-panel-title">Navbar</h3>
+      <div class="row demo-row">
+        <div class="col-xs-12">
+          <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+            <!--
+			<div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+                <span class="sr-only">Toggle navigation</span>
+              </button>
+              <a class="navbar-brand" href="#">Flat UI</a>
+            </div>
+			-->
+            <div class="collapse navbar-collapse" id="navbar-collapse-01">
+              <ul class="nav navbar-nav navbar-left">
+                <li ><a href="main.html">菜单</a></li>
+				<li ><a href="order.html">订单<span class="navbar-unread">1</span></a></li>
+               
+                <li><a href="#fakelink">About Us</a></li>
+               </ul>		   
+
+		<div class="navbar-form navbar-right">
+          <a href="#fakelink" class="btn btn-block btn-lg btn-info">Default Button</a>
+        </div>			  
+            </div><!-- /.navbar-collapse -->
+          </nav><!-- /navbar -->
+        </div>
+
+	<span class="fui-calendar"></span>
+	<span class="fui-cross"></span>
+      </div> <!-- /row -->
+	            <div class="form-group">
+                <label for="dtp_input1" class="col-md-2 control-label">下单时间</label>
+                <div class="input-group date form_datetime col-md-5 " data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                    <input class="form-control" size="16" type="text" value="" >
+                    <span class="input-group-addon"><span class="fui-cross"></span></span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+				<input type="hidden" id="dtp_input1" value="" /><br/>
+            </div>
+	<div class="row">
+        <div class="col-xs-3">
+          <div class="form-group">
+            <input type="text" value="" placeholder="按菜名" class="form-control" />
+          </div>
+        </div>
+		 <div class="col-xs-3">
+          <select class="form-control select select-primary" data-toggle="select">
+            <option value="0" selected>全部</option>
+			<option value="1">未下单</option>
+            <option value="1">未确认</option>
+            <option value="2">已确认</option>
+            <option value="3">未支付</option>
+            <option value="4" >已支付</option>
+          </select>	
+		</div>	
+        <div class="col-xs-3">
+          <a href="#fakelink" class="btn btn-block btn-lg btn-inverse">查询</a>
+        </div>		  
+	</div>
+	
+	<ul class="list-group">
+	  <li class="list-group-item list-group-item-success">2014-05-02</li>
+	  <li class="list-group-item ">Cras sit amet nibh libero</li>
+	  <li class="list-group-item ">Porta ac consectetur ac</li>
+	  <li class="list-group-item ">Vestibulum at eros</li>
+	</ul>
+	
+	<ul class="list-group">
+	  <li class="list-group-item list-group-item-success">Dapibus ac facilisis in</li>
+	  <li class="list-group-item ">Cras sit amet nibh libero</li>
+	  <li class="list-group-item ">Porta ac consectetur ac</li>
+	  <li class="list-group-item ">Vestibulum at eros</li>
+	</ul>
+	
+
+	 <div class="pagination">
+		<ul>
+		  <li class="previous"><a href="#fakelink" class="fui-arrow-left"></a></li>
+		  <li class="active"><a href="#fakelink">1</a></li>
+		  <li><a href="#fakelink">2</a></li>
+		  <li><a href="#fakelink">3</a></li>
+		  <li class="next"><a href="#fakelink" class="fui-arrow-right"></a></li>
+		</ul>
+	  </div> <!-- /pagination --> 	 
+	  
+
+    <script src="dist/js/vendor/jquery.min.js"></script>
+    <script src="dist/js/vendor/video.js"></script>
+    <script src="dist/js/flat-ui.min.js"></script>
+    <script src="docs/assets/js/application.js"></script>
+
+    <script>
+      videojs.options.flash.swf = "dist/js/vendors/video-js.swf"
+    </script>
+	
+	<script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+	<script type="text/javascript">
+		$('.form_datetime').datetimepicker({
+			//language:  'fr',
+			weekStart: 1,
+			todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			forceParse: 0,
+			showMeridian: 1
+		});
+		$('.form_date').datetimepicker({
+			language:  'fr',
+			weekStart: 1,
+			todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+		});
+		$('.form_time').datetimepicker({
+			language:  'fr',
+			weekStart: 1,
+			todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 1,
+			minView: 0,
+			maxView: 1,
+			forceParse: 0
+		});
+	</script>	
+	
+  </body>
+</html>

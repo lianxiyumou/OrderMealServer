@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.luopeng.dao.FoodDao">
+
+	<update id="updatebatch" parameterType="java.util.List">
+	  	replace into tb_food (name,type,state) values
+	  	<foreach collection="list" item="item" index="index" separator=",">
+	  	( #{item.name}, #{item.type}, #{item.state} )
+	  	</foreach>
+  	</update> 
+  	
+  	
+  	<select id="selectAll" resultType="com.luopeng.model.Food">
+  		select * from tb_food
+  	</select>
+
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.luopeng.dao.PlaceDao">
+
+    
+    <insert id="insert" parameterType="com.luopeng.model.Place">    <!-- 向数据库中插入用户 -->
+        insert into tb_place2(lat,lng) values(#{lat},#{lng})
+    </insert>
+    
+	<insert id="insertbatch" parameterType="java.util.List">
+	  	insert into tb_place2 (lat,lng,name,address,streetid,uid,telephone ) values
+	  	<foreach collection="list" item="item" index="index" separator=",">
+	  	( #{item.lat}, #{item.lng}, #{item.name}, #{item.address}, #{item.streeId}, #{item.uid}, #{item.telephone} )
+	  	</foreach>
+  	</insert>    
+  	
+<!-- 	<update id="updatebatch" parameterType="java.util.List">
+	  	insert into tb_place2 (lat,lng,name,address,streetid,uid,telephone ) values
+	  	<foreach collection="list" item="item" index="index" separator=",">
+	  	( #{item.lat}, #{item.lng}, #{item.name}, #{item.address}, #{item.streeId}, #{item.uid}, #{item.telephone} )
+	  	</foreach>
+	  	on duplicate key 
+	  	update 
+		<foreach collection="list" item="item" index="index" separator="+">
+	  	lat=#{item.lat}, lng=#{item.lng} ,name = #{item.name}, address=#{item.address}, streetid=#{item.streeId}, telephone = #{item.telephone}
+	  	</foreach>	  	
+  	</update>  --> 
+  	
+  	
+	<update id="updatebatch" parameterType="java.util.List">
+	  	replace into tb_place2 (lat,lng,name,address,streetid,uid,telephone ) values
+	  	<foreach collection="list" item="item" index="index" separator=",">
+	  	( #{item.lat}, #{item.lng}, #{item.name}, #{item.address}, #{item.streeId}, #{item.uid}, #{item.telephone} )
+	  	</foreach>
+  	</update>  	 
+  	
+  		
+    
+    <select id="selectAll" resultType="com.luopeng.model.Place" >
+    	select * from tb_place2
+    </select>
+    
+    <select id="selectNear" parameterType="map" resultType="com.luopeng.model.Place">
+		SELECT 
+			id,lat,lng,
+			(6366.564864)*2*ASIN(SQRT(POWER(SIN((#{lat} - lat)*pi()/180 / 2), 2) +  COS(#{lat} * pi()/180) * COS(lat * pi()/180) *  POWER(SIN((#{lng} - lng) * pi()/180 / 2), 2) )) as dist 
+		FROM 
+		tb_place2 
+		<if test="dist">
+			having (dist > #{dist})
+		</if>
+		ORDER BY dist    
+	</select>
+    
+</mapper>
