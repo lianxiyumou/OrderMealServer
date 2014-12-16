@@ -15,8 +15,6 @@ import com.luopeng.model.User;
 public interface UserDao   {//implements InitializingBean
 
     public int insert(User user);
-    
-    public int insertBaseInfo(User user);
      
     public int update(User user);
    
@@ -30,7 +28,5 @@ public interface UserDao   {//implements InitializingBean
 
 	public List<Map<String,Object>> selectByMap(Map<String,Object> map);
 	
-	public User selectUserNameAndPwd(User user);
-	
-	
+
 }

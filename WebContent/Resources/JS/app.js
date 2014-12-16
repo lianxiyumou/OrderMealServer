@@ -1,18 +1,16 @@
 Ext.Loader.setConfig({enabled: true});
-
 Ext.Loader.setPath('Ext.ux', 'Resources/ux/');
 Ext.require([
     'Ext.grid.*',
     'Ext.data.*',
     'Ext.util.*',
+    'Ext.form.*',
     'Ext.ux.form.SearchField'
 ]);
 Ext.application({
     name   : 'MyApp',
     launch : function() {
 
-    	
-    	
     	Ext.create('Ext.container.Viewport', {
     	    layout: 'border',
     	    items: [{
@@ -25,7 +23,8 @@ Ext.application({
             }, {
                 region: 'center',
                 xtype: 'tabpanel',
-                items: [getBufferedStoreGrid(), {
+                items: [getFoodListGrid(), 
+                        {
                     title: 'Another Tab',
                     html: 'Hello world 2'
                 }, {
@@ -38,3 +37,10 @@ Ext.application({
 
     }
 });
+
+function grid(){
+	return '<p>Window2 configured with:</p><pre style="margin-left:20px"><code>header: {\n    titlePosition: 2,\n    titleAlign: "center"\n},\nmaximizable: true,\ntools: [{type: "pin"}],\nclosable: true</code></pre>';
+}
+
+
+

@@ -3,15 +3,55 @@
 <mapper namespace="com.luopeng.dao.FoodDao">
 
 	<update id="updatebatch" parameterType="java.util.List">
-	  	replace into tb_food (name,type,state) values
+	  	replace into tb_food (id,name,type,state) values
 	  	<foreach collection="list" item="item" index="index" separator=",">
-	  	( #{item.name}, #{item.type}, #{item.state} )
+	  	( #{item.id},#{item.name}, #{item.type}, #{item.state} )
 	  	</foreach>
   	</update> 
   	
   	
+  	<insert id="insertbatch">
+  		insert into tb_food (name,type,state) values  
+	  	<foreach collection="list" item="item" index="index" separator=",">
+	  	( #{item.name}, #{item.type}, #{item.state} )
+	  	</foreach> 
+  		on duplicate key 
+  		update name=values(name)
+  	</insert>  	
+  	
   	<select id="selectAll" resultType="com.luopeng.model.Food">
   		select * from tb_food
   	</select>
+
+	<select id="selectByType" parameterType="java.lang.Integer" resultType="com.luopeng.model.Food">
+		select * from tb_food where type = #{foodType}
+	</select>
+	
+	<delete id="deleteFoods" parameterType="java.util.List">
+		delete from tb_food where id in 
+		(
+		  	<foreach collection="list" item="item" index="index" separator=",">
+		  	 #{item}
+		  	</foreach> 		
+		)
+	</delete>
+
+	<select id="selectMenuFood" parameterType="java.util.Date" resultType="java.util.Map">
+		select f.id AS f_id,m.id AS m_id,f.`name` AS f_name from tb_food f,tb_menu_food mf,tb_menu m
+		where f.id = mf.food_id and mf.menu_id = m.id and TO_DAYS(m.create_date) = TO_DAYS(#{date})		
+	</select>
+	
+	<select id="selectMenu" parameterType="java.util.Date" resultType="java.util.Map">
+		select * from tb_menu where create_date = #{date}
+	</select>
+	
+	<select id="selectFoodReason" parameterType="java.lang.Integer" >
+		select * from tb_food f,tb_menu_food mf, tb_food_reason fr 
+		where f.id = #{id} and f.id = mf.food_id and mf.id = fr.menu_food_id
+	</select> 
+
+	<insert id="insert" parameterType="com.luopeng.model.Food">
+		insert into tb_food(name,type,state) values(#{name},#{type},#{state})
+	</insert>
 
 </mapper>

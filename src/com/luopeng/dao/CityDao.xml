@@ -9,7 +9,6 @@
 	  	</foreach>
   	</update> 
   	
-  	
   	<select id="selectAll" resultType="java.util.List">
   		select * from tb_city
   	</select>

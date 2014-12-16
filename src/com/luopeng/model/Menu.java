@@ -3,10 +3,11 @@ package com.luopeng.model;
 import java.util.Date;
 
 public class Menu {
-	
+
 	private int id;
 	private String title;
 	private Date createDate;
+	
 	public int getId() {
 		return id;
 	}
@@ -25,5 +26,5 @@ public class Menu {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-
+	
 }

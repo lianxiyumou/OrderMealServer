@@ -18,7 +18,6 @@ public class ParseCity {
 		Set<Entry<String, JsonElement>> entries =  jobj.entrySet();
 		List<City> list = new ArrayList<City>();
 		for(Entry<String, JsonElement> entry : entries){
-			entry.getKey();
 			City city = new City();
 			city.setCode(Integer.valueOf(entry.getKey()));
 			city.setName(entry.getValue().getAsString());

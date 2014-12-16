@@ -1,7 +1,6 @@
 
 
-function getBufferedStoreGrid(){
-
+function getFoodGrid(){
     Ext.define('ForumThread', {
         extend: 'Ext.data.Model',
         fields: [{
@@ -46,7 +45,7 @@ function getBufferedStoreGrid(){
             // load using script tags for cross domain, if the data in on the same domain as
             // this page, an HttpProxy would be better
             type: 'jsonp',
-            url: 'http://www.sencha.com/forum/topics-remote.php',
+            url: 'http://192.168.0.102:8090/EatHelper/food/getFoodByType.do',
             reader: {
                 rootProperty: 'topics',
                 totalProperty: 'totalCount'
@@ -63,7 +62,11 @@ function getBufferedStoreGrid(){
             }
         },
         listeners: {
-            totalcountchange: onStoreSizeChange
+            totalcountchange: onStoreSizeChange,
+            load:function(thiz,records,successful){
+            	alert();
+            }
+        
         },
         remoteFilter: true,
         autoLoad: true
@@ -146,5 +149,7 @@ function getBufferedStoreGrid(){
         }],
         //renderTo: Ext.getBody()
     });
+    
     return grid;
+    
 }

@@ -1,11 +1,30 @@
-<?xml version="1.0" encoding="UTF-8" ?>  
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.luopeng.dao.MenuDao">
-
-  	
-  	
-  	<select id="selectAll" resultType="com.luopeng.model.Menu">
-  		select * from tb_menu
-  	</select>
-
+	<select id="selectAll" resultType="com.luopeng.model.Menu">
+		select * from tb_menu order by create_date desc
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.luopeng.model.Menu">
+		insert into tb_menu(title,create_date) values(#{title},#{createDate})
+	</insert>
+	
+	<select id="selectMenuByDate" parameterType="java.util.Date" resultType="com.luopeng.model.Menu">
+		select * from tb_menu where TO_DAYS(create_date) = TO_DAYS(#{date})
+	</select>
+	
+	<select id="selectMenuFood" parameterType="java.util.Map" resultType="java.util.Map">
+		select * from tb_menu_food where menu_id = #{menuId} and food_id = #{foodId}
+	</select>
+	
+	<insert id="insertFood2Menu" parameterType="java.util.Map">
+		insert into tb_menu_food(menu_id,food_id,create_date) 
+		values (#{menuId},#{foodId},#{createDate})
+	</insert>	
+	
+	<delete id="deleteFood2Menu" parameterType="java.util.Map">
+		delete from tb_menu_food where menu_id = #{menuId} and food_id = #{foodId}
+	</delete>
+	
+	
 </mapper>

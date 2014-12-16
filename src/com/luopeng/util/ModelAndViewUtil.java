@@ -27,8 +27,6 @@ public class ModelAndViewUtil {
 	
 	public static void write(ResponseModel rsp,HttpServletResponse response){
 		String objstr = GsonUtil.obj2string(rsp);
-		String enCodeStr = RC4.encryptionRC4String(objstr, RC4.KEY);
-		System.out.println("write enCodeStr:"+enCodeStr);
 		writeString(objstr, response);
 	}
 	
@@ -48,6 +46,8 @@ public class ModelAndViewUtil {
 	public static void writeString(String string, HttpServletResponse response) {
 		PrintWriter print = null;
 		try {
+			response.setHeader("Access-Control-Allow-Origin", "*");
+			response.setHeader("Access-Control-Allow-Credentials", "true");
 			print = response.getWriter();
 			print.write(string);
 		} catch (IOException e) {

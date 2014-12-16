@@ -20,15 +20,18 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.luopeng.comm.PageHelper;
 import com.luopeng.comm.RC4;
+import com.luopeng.dao.FoodDao;
 import com.luopeng.dao.PlaceDao;
 import com.luopeng.dao.UserDao;
 import com.luopeng.model.Food;
 import com.luopeng.model.Place;
 import com.luopeng.model.ResponseModel;
 import com.luopeng.model.User;
+import com.luopeng.parse.ParseFood;
 import com.luopeng.util.DateTimeUtil;
 import com.luopeng.util.GsonUtil;
 import com.luopeng.util.MStringUtils;
@@ -39,109 +42,87 @@ import com.luopeng.util.ModelAndViewUtil;
 @RequestMapping(value="/food")
 public class FoodController {
 
+	@Autowired
+	private FoodDao foodDao;
+	
 	private static Logger logger = LogManager.getLogger(FoodController.class.getName());	
-	
-	@Autowired
-	private UserDao userDao; 
-	
-	@Autowired
-	private PlaceDao placeDao;
 	
 	@RequestMapping(value="/getAllFood")
 	public void getAllFood(HttpServletRequest request,	HttpServletResponse response){
-	   ResponseModel rsp = new ResponseModel();
-	   rsp.put("foodlist", foodlist());
-	   ModelAndViewUtil.write(rsp, response);
-    }	
+		logger.debug("getAllFood");
+		List<Food> list = foodDao.selectAll();
+		ResponseModel rsp = new ResponseModel();
+		rsp.put("foodlist", list);
+		rsp.put("totalCount", list.size());
+		ModelAndViewUtil.write(rsp, response);
+	}	
 	
-	private List<Food> foodlist(){
-		List<Food> list = new ArrayList<Food>();
-		for(int i=0; i<25; i++){
-			Food food = new Food();
-			food.setId(i);
-			food.setName("food"+i);
-			list.add(food);
-		}
-		return list;
+	@RequestMapping(value="/getFoodByType")
+	public void getFoodByType(HttpServletRequest request,	HttpServletResponse response){
+		String foodType = request.getParameter("foodType");
+		System.out.println("FoodType:"+foodType);
+		List<Food> list = foodDao.selectByType(Integer.valueOf(foodType));
+		ResponseModel rsp = new ResponseModel();
+		rsp.put("foodlist", list);
+		rsp.put("totalCount", list.size());
+		ModelAndViewUtil.write(rsp, response);
 	}
 	
-	public List<User> getUsers(){
-		System.out.println("woshi");
-		logger.debug("我是debug msg");
-		return userDao.selectAll();
-	}
-
-	@RequestMapping(value="/getUsers")
-	public void getUsers(HttpServletRequest request,	HttpServletResponse response){
-//		request.getParameterMap();request.getParameterValues("name")
-	   System.out.println("getUsers parse start "+ System.currentTimeMillis());
-		Map<String,String> paramMap = ModelAndViewUtil.getMultiParamterMap2(request);
-		System.out.println("getUsers parse end "+ System.currentTimeMillis());
-		if(paramMap != null && paramMap.size() >0){
-			Set<String> keySets = paramMap.keySet();
-			for(String key : keySets){
-				System.out.println(key+":"+paramMap.get(key));
-			}
-		}		
-	   System.out.println("--------------------");
-	   if(userDao == null){
-			return;
-	   }
-	   regisert();
-	   List<User> users = selectUsers();
-	   ResponseModel rsp = new ResponseModel();
-	   rsp.put("userlist", users);
-	   ModelAndViewUtil.write(rsp, response);
-   }
-	
-   private void regisert(){	
-	   User user = new User();
-	   user.setAge(24);
-	   user.setEmail("990740109@qq.com");
-	   user.setPassword("123456");
-	   user.setSex("m");
-	   user.setUsername("luopeng");
-	   userDao.insert(user);
-   }
-
-   @RequestMapping(value="/login")
-   public void login(HttpServletRequest request,HttpServletResponse response){
-	   System.out.println("login parse start "+ System.currentTimeMillis());
-	   Map<String,String> paramMap = ModelAndViewUtil.getMultiParamterMap(request);
-	   System.out.println("login parse end "+ System.currentTimeMillis());
-	   System.out.println("--------------------");
-	   if(paramMap != null && paramMap.size() >0){
-		   Set<String> keySets = paramMap.keySet();
-		   for(String key : keySets){
-			   System.out.println(key+":"+paramMap.get(key));
-		   }
-	   }
-	   System.out.println("--------------------");
-	   List<User> users = selectUsers();
-	   ResponseModel rsp = new ResponseModel();
-	   rsp.put("userlist", users);
-	   ModelAndViewUtil.write(rsp, response);		
-   }
-   
-	public List<User> selectUsers(){
-		List<User> userList = new ArrayList<User>();
-			for(int i=0; i<10; i++){
-				User user = new User();
-				user.setId(i);
-				user.setUsername("luopeng");
-				userList.add(user);
-			}
-		return userList;
-	}   
-	
-	public void findAllPlace(){
-		System.out.println("start findAllPlace"+DateTimeUtil.getTime());
-		PageHelper.startPage(1, 10,false);
-		List<Place> list = placeDao.selectAll();
-		System.out.println("end findAllPlace"+DateTimeUtil.getTime());
-		System.out.println("list size:"+list.size());
+	@RequestMapping(value="/addFoods")
+	public void addFoods(HttpServletRequest request,	HttpServletResponse response){
+		System.out.println("addFood");
+		String newRecords = request.getParameter("newFoods");
+		String updatedRecords = request.getParameter("updateFoods");
+		String removeRecords = request.getParameter("removeFoods");
+		
+		System.out.println("newFoods:"+newRecords);
+		System.out.println("updateFoods:"+updatedRecords);
+		List<Food> newFoods = ParseFood.str2FoodList(newRecords);
+		List<Food> updateFoods = ParseFood.str2FoodList(updatedRecords);
+		List<Integer> removedFoods = GsonUtil.str2List(removeRecords);
+		
+		newFoods.addAll(updateFoods);
+		if(!newFoods.isEmpty())
+			foodDao.updatebatch(newFoods);
+		if(!removedFoods.isEmpty())
+			foodDao.deleteFoods(removedFoods);
+		
+		ModelAndViewUtil.writeString("{success:true}", response);
 	}
 	
+	@RequestMapping(value="/getMenuDetail")
+	public void getMenuDetail(HttpServletRequest request,	HttpServletResponse response){
+		// select * from tb_food 
+		//where id in 
+		//(select food_id from tb_menu_food 
+		//where menu_id == (select id from tb_menu where id = 0 )) s
+		
+		//name,food_state,menu_food.state
+		//
+		
+		//select * from tb_food f,tb_menu_food mf,tb_menu m
+		//where f.food_id in mf.food_id and mf.menu_id == m.id
+	}
 	
+	@RequestMapping(value="/addFood")
+	public void addFood(HttpServletRequest request,	HttpServletResponse response){
+		String name = request.getParameter("foodName");
+		String type = request.getParameter("type");
+		String state = request.getParameter("state");
+		int error = 0;
+//		try{
+//			Food food = new Food();
+//			food.setName(name);
+//			food.setState(Integer.valueOf(state));
+//			food.setType(Integer.valueOf(type));
+//			foodDao.insert(food);
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			error = -1;
+//		}
+		ResponseModel rsp = new ResponseModel();
+		rsp.put("error", error);
+		ModelAndViewUtil.write(rsp, response);
+	}
 	
 }

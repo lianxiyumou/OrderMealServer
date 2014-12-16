@@ -101,7 +101,7 @@ public class UserController {
 		   user.setPassword(pwd);
 		   user.setSex("m");
 		   try{
-			   userDao.insertBaseInfo(user);
+//			   userDao.insertBaseInfo(user);
 		   }catch(Exception e){
 			   e.printStackTrace();
 			   rsp.put("error", -100);
@@ -119,13 +119,13 @@ public class UserController {
 	   User user = new User();
 	   user.setUsername(account);
 	   user.setPassword(pwd);
-	   User findUser = userDao.selectUserNameAndPwd(user);
+//	   User findUser = userDao.selectUserNameAndPwd(user);
 	   ResponseModel rsp = new ResponseModel();
-	   if(findUser == null || findUser.getId() == 0){
-		   rsp.put("error", -1);
-	   }else{
-		   rsp.put("user", findUser);
-	   }
+//	   if(findUser == null || findUser.getId() == 0){
+//		   rsp.put("error", -1);
+//	   }else{
+//		   rsp.put("user", findUser);
+//	   }
 	   ModelAndViewUtil.write(rsp, response);		
    }
    

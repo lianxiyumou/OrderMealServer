@@ -34,10 +34,10 @@ public class UserDaoTest {
 		user.setEmail("990740109@qq.com");
 		user.setPassword("123456");
 		user.setSex("m");
-		user.setUsername("luopeng3");
+		user.setUsername("luopeng");
 		System.out.println("userDao:"+userDao);
-		int userId = userDao.insert(user);
-	    System.out.println("userId:"+user.getId());
+		userDao.insert(user);
+	    
 	}
 	
 	//@Test
@@ -48,7 +48,7 @@ public class UserDaoTest {
 		}
 	}
 	
-	//@Test
+	@Test
 	public void testSelectAll(){
 		List<User> list = userDao.selectAll();
 		if(list != null){
@@ -84,16 +84,6 @@ public class UserDaoTest {
 		}
 	}
 	
-	@Test
-	public void testSelectUserNameAndPwd(){
-		Map<String,String> params = new HashMap<String,String>();
-		
-		User user = new User();
-		user.setUsername("lianxi");
-		user.setPassword("23456");
-		userDao.selectUserNameAndPwd(user);
-		System.out.println("id:"+user.getId());
-	}
 	
 	
 }

@@ -18,6 +18,21 @@ public class GsonUtil {
 		return gson.toJson(obj);
 	}
 	
+	public static List<Integer> str2List(String str){
+		List<Integer> list = new ArrayList<Integer>();
+		try{
+			Gson gson = new Gson();
+			JsonArray jArray = gson.fromJson(str, JsonArray.class);
+			for(int i=0; i<jArray.size(); i++){
+				list.add(jArray.get(i).getAsInt());
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		return list;
+	}
+	
 	public static Place jobj2Place(JsonObject obj){
 		Place place = new Place();
 		if(obj.has("name")){
